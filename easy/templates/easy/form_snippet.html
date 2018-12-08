@@ -1,0 +1,15 @@
+{% csrf_token %}
+{% for field in form %}
+    <div class="row">
+        <div class="col">
+            {{ field.errors }}
+            {{ field.label_tag }} 
+        </div>
+        <div class="col">
+            {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

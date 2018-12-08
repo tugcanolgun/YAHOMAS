@@ -1,0 +1,29 @@
+{% extends 'easy/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+{% if guests %}
+    <ul>
+
+    {% if messages %}
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><span style="color: green">{{ message }}</span></li>
+        <!-- <span style="color: green">{{ message }}</span> -->
+        {% endfor %}
+    {% endif %}
+    {% for guest in guests %}
+        <li><a href="{% url 'easy:guest_delete' guest.id %}">Delete</a> {{ guest.name }} {{ guest.surname }} </li>
+        
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No guests are available.</p>
+{% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
