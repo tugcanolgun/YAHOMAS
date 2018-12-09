@@ -1,0 +1,24 @@
+{% extends 'easy/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+{% if rooms %}
+    <ul>
+
+    {% include "easy/message.html" %}
+    {% for room in rooms %}
+        <li><a href="{% url 'easy:room_delete' room.id %}"><span style="color: red">x</span></a> 
+             - <a href="{% url 'easy:room' room.id %}">{{ room.room_number }}</a>
+        </li>
+        
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No room types are available.</p>
+{% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, Guests
+from .models import Booking, Guests, RoomType, Rooms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -9,12 +9,24 @@ class AddGuest(forms.ModelForm):
         model = Guests
         fields = ('name', 'surname')
 
-class PostForm(forms.ModelForm):
+class BookingForm(forms.ModelForm):
     start_date = forms.DateField(widget=forms.TextInput(attrs={'id':'datepicker'}))
 
     class Meta:
         model = Booking
         fields = ('start_date', 'end_date', 'price', 'amount_paid', 'is_checked_in')
+
+class RoomTypeForm(forms.ModelForm):
+    class Meta:
+        model = RoomType
+        fields = ('name', 'bed_count', 'is_smoke')
+
+class RoomsForm(forms.ModelForm):
+    # number_of_beds = forms.IntegerField( widget=forms.TextInput(attrs={'placeholder': 'Input_A', 'style': 'margin-left: 50px'}))
+    number_of_beds = forms.IntegerField(required=False)
+    class Meta:
+        model = Rooms
+        fields = ('room_type', 'room_number', 'number_of_beds', 'is_smoke', 'is_balcony')
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')

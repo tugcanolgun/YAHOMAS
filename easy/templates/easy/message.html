@@ -1,0 +1,6 @@
+    {% if messages %}
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><span style="color: green">{{ message }}</span></li>
+        <!-- <span style="color: green">{{ message }}</span> -->
+        {% endfor %}
+    {% endif %}
