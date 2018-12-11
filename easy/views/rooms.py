@@ -44,7 +44,7 @@ def room_add(request, room_type_id):
 
 def room_delete(request, room_id):
     _room = Rooms.objects.get(id=room_id)
-    if guest:
+    if _room:
         _room.delete()
         messages.success(request, "Room is deleted")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

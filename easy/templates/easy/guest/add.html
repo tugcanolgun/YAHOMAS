@@ -1,17 +1,8 @@
 {% extends 'easy/base.html' %}
 
 {% block content %}
-<div class="container">
 
-    <div class="row">
-        <div class="col">
-            <form action="{% url 'easy:guest_add' %}" method="post">
-                {% include "easy/form_snippet.html" %}
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-    </div>
-</div>
+    {% include "easy/form_snippet.html" %}
 
 {% endblock %}
 
