@@ -6,29 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'easy/sidebar.css' %}" />
+
 </head>
 <body>
-    <div class="page-header">
-        <h1><a href="/">Hotel management system</a></h1>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-2">
-                <a href="{% url 'easy:index' %}">Index</a> <br>
-                <a href="{% url 'easy:guest' %}">Guests</a> <br>
-                <a href="{% url 'easy:guest_add' %}">Add guest</a> <br>
-                <a href="{% url 'easy:booking' %}">Booking</a> <br>
-                <a href="{% url 'easy:booking_add' %}">Add booking</a> <br>
-                <a href="{% url 'easy:room_type' %}">Room types</a> <br>
-                <a href="{% url 'easy:room_type_add' %}">Add room_type</a> <br>
-                <a href="{% url 'easy:room' %}">Rooms</a> <br>
-            </div>
-            <div class="col-10">
-                {% block content %}
-                {% endblock %}
-            </div>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3><a href="{% url 'easy:index' %}">HMS</a></h3>
         </div>
+        <ul class="list-unstyled components">
+            <p>Manage everything</p>
+            <li class="active">
+                <li>
+                    <a href="{% url 'easy:index' %}">Home</a>
+                </li>
+            </li>
+            <li>
+                <a href="#bookingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rooms</a>
+                <ul class="collapse list-unstyled" id="bookingSubmenu">
+                    <li>
+                        <a href="{% url 'easy:booking' %}">Booking</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'easy:booking_add' %}">Add booking</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'easy:room' %}">Rooms</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#roomSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Room types</a>
+                <ul class="collapse list-unstyled" id="roomSubmenu">
+                    <li>
+                        <a href="{% url 'easy:room_type' %}">Room types</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'easy:room_type_add' %}">Add room_type</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#guestSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Guests</a>
+                <ul class="collapse list-unstyled" id="guestSubmenu">
+                    <li>
+                        <a href="{% url 'easy:guest' %}">Guests</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'easy:guest_add' %}">Add guest</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Portfolio</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                    {% block content %}
+                    {% endblock %}
+            </div>
+        </nav>
     </div>
+</div>
+
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
