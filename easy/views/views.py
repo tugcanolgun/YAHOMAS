@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def index(request):
-    latest_question_list = RoomType.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list': latest_question_list}
+    # latest_question_list = RoomType.objects.order_by('-pub_date')[:5]
+    # context = {'latest_question_list': latest_question_list}
     if request.method == 'POST':
         form = NameForm(request.POST)
         if form.is_valid():
