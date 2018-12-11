@@ -38,7 +38,7 @@ def booking_add(request):
 
 def booking_delete(request, booking_id):
     _booking = Booking.objects.get(id=booking_id)
-    if guest:
+    if _booking:
         _booking.delete()
         messages.success(request, "Booking is deleted")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
