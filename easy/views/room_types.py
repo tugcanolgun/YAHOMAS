@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 
 def room_type(request):
     if request.method == 'GET':
-        room_types = RoomType.objects.order_by('-created_at')[:10]
-        context = {'room_types': room_types}
+        room_types = RoomType.objects.order_by('-created_at')
+        form = RoomTypeForm()
+        context = {'room_types': room_types, 'form': form}
         return render(request, 'easy/room_type/index.html', context)
 
 def room_type_add(request):
@@ -32,9 +33,9 @@ def room_type_add(request):
 
 def room_type_delete(request, room_type_id):
     _room_type = RoomType.objects.get(id=room_type_id)
-    if guest:
+    if _room_type:
         _room_type.delete()
-        messages.success(request, "Room type is deleted")
+        messages.success(request, "Room %s is deleted" % _room_type.name)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
     logger.warning("Room type could not be found. ID: %s" % room_type_id)

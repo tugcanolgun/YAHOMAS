@@ -19,7 +19,8 @@ class AddGuest(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Save Guest'))
 
 class BookingForm(forms.ModelForm):
-    start_date = forms.DateField(widget=forms.TextInput(attrs={'id':'datepicker'}))
+    start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  
+    end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  
 
     class Meta:
         model = Booking
