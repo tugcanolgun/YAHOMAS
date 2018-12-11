@@ -1,25 +1,46 @@
 {% extends 'easy/base.html' %}
 
 {% block content %}
+{% include "easy/message.html" %}
 <div class="container-fluid">
     <div class="row">
-
+        <button data-whatever="Add new room type" style="margin: 0.5em;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add new room type
+        </button>
+    </div>
+    <div class="row">
 {% if room_types %}
-    <ul>
-
-    {% include "easy/message.html" %}
     {% for room_type in room_types %}
-        <li><a href="{% url 'easy:room_type_delete' room_type.id %}">Delete</a> <a href="{% url 'easy:room_add' room_type.id %}">{{ room_type.name }}</a> </li>
-        
+        {% url 'easy:room_type_delete' room_type.id as link %}
+        <div class="card" style="width: 18rem; margin: 0.5em;">
+            <div class="card-header d-flex justify-content-between align-items-center w-100">
+                <a href="{% url 'easy:room_add' room_type.id %}"><i class="fas fa-plus"></i> {{ room_type.name }}</a>
+                <button type="button" onclick="changeBody('{{ room_type.name }}', '{{ link }}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                    X
+                </button>
+            </div>
+            <div class="card-body" style="color: royalblue">
+                
+                Bed count: 
+                {% with ''|center:room_type.bed_count as range %}
+                {% for _ in range %}
+                    <i class="fas fa-bed"></i>
+                {% endfor %}
+                {% endwith %}
+                {% if room_type.is_smoke %}
+                    <br />Smoke allowed: <i class="fas fa-smoking"></i>
+                {% endif %}
+                {% if room_type.is_balcony %}
+                    <br />Has balcony: <i class="fas fa-ring"></i>
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
-    </ul>
 {% else %}
     <p>No room types are available.</p>
 {% endif %}
     </div>
 </div>
-
+{% include "easy/modals.html" %}
+{% include "easy/form_modal.html" %}
 {% endblock %}
-
-
-

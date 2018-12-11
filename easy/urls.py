@@ -17,6 +17,7 @@ urlpatterns = [
     path('room_type/delete/<uuid:room_type_id>', views.room_type_delete, name='room_type_delete'),
     path('room/', views.room, name='room'),
     path('room/<uuid:room_id>', views.room, name='room'),
+    path('room/add', views.room_add_w, name='room_add_w'),
     path('room/add/<uuid:room_type_id>', views.room_add, name='room_add'),
     path('room/delete/<uuid:room_id>', views.room_delete, name='room_delete'),
     # path('<int:pk>/', views.DetailView.as_view(), name='detail'),

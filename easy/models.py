@@ -37,7 +37,7 @@ class Booking(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     price = models.FloatField()
-    amount_paid = models.FloatField()
+    amount_paid = models.FloatField(default=0)
     is_checked_in = models.BooleanField(default=False)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)

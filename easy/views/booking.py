@@ -22,14 +22,8 @@ def booking_add(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            booking = Booking(
-                start_date = form.cleaned_data['start_date'],
-                end_date = form.cleaned_data['end_date'],
-                price = form.cleaned_data['price'],
-                amount_paid = form.cleaned_data['amount_paid'],
-                is_checked_in = form.cleaned_data['is_checked_in']
-            )
-            booking.save()
+            __booking = form.save(commit=False)
+            __booking.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         form = BookingForm()
