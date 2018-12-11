@@ -10,6 +10,7 @@ class RoomType(models.Model):
     name = models.CharField(max_length=30)
     bed_count = models.PositiveSmallIntegerField(default=1)
     is_smoke = models.BooleanField(default=False)
+    is_balcony = models.BooleanField(default=False)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -20,9 +21,6 @@ class Rooms(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     room_number = models.CharField(max_length=30)
-    number_of_beds = models.PositiveIntegerField(default=None, blank=True, null=True)
-    is_smoke = models.BooleanField(default=None, blank=True, null=True)
-    is_balcony = models.BooleanField(default=None, blank=True, null=True)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 

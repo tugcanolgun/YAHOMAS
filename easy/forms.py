@@ -19,14 +19,13 @@ class BookingForm(forms.ModelForm):
 class RoomTypeForm(forms.ModelForm):
     class Meta:
         model = RoomType
-        fields = ('name', 'bed_count', 'is_smoke')
+        fields = ('name', 'bed_count', 'is_smoke', 'is_balcony')
 
 class RoomsForm(forms.ModelForm):
     # number_of_beds = forms.IntegerField( widget=forms.TextInput(attrs={'placeholder': 'Input_A', 'style': 'margin-left: 50px'}))
-    number_of_beds = forms.IntegerField(required=False)
     class Meta:
         model = Rooms
-        fields = ('room_type', 'room_number', 'number_of_beds', 'is_smoke', 'is_balcony')
+        fields = ('room_type', 'room_number')
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
