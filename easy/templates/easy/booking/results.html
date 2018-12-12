@@ -11,10 +11,15 @@
 <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th class="th-sm">Room Type</th>
       <th class="th-sm">Room Number</th>
-      <th class="th-sm">Smokable?</th>
-      <th class="th-sm">Has balcony?</th>
+      <th class="th-sm">Single Bed</th>
+      <th class="th-sm">Double Bed</th>
+      <th class="th-sm">Child Bed</th>
+      <th class="th-sm">Has View</th>
+      <th class="th-sm">Smokable</th>
+      <th class="th-sm">Balcony</th>
+      <th class="th-sm">Air conditioning</th>
+      <th class="th-sm">Tv</th>
     </tr>
   </thead>
   <tbody>
@@ -23,17 +28,52 @@
     {% for result in results %}
         <tr>
             <td>{{ result.room_number }}</td>
-            <td>{{ result.room_type.name }}</td>
-            <td>{% if result.room_type.is_smoke %}
-                    <i class="far fa-circle"></i>
-                {% else %}
+            <td>{% if result.single_bed %}
                     <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
                 {% endif %}
             </td>
-            <td>{% if result.room_type.is_balcony %}
-                    <i class="far fa-circle"></i>
-                {% else %}
+            <td>{% if result.double_bed %}
                     <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.child_bed %}
+                    <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_view %}
+                    <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.smokable %}
+                    <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_balcony %}
+                    <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_air_cond %}
+                    <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_tv %}
+                    <i class="fas fa-circle"></i>
+                {% else %}
+                    <i class="far fa-circle"></i>
                 {% endif %}
             </td>
         </tr>

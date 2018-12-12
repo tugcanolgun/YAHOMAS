@@ -28,8 +28,17 @@
                     <a href="{% url 'easy:index' %}">Home</a>
                 </li>
             </li>
+                    <li>
+                        <a href="{% url 'easy:booking' %}">Booking</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'easy:booking_add' %}">Add booking</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'easy:room' %}">Rooms</a>
+                    </li>
             <li>
-                <a href="#bookingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Rooms</a>
+                <a href="#bookingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Booking</a>
                 <ul class="collapse list-unstyled" id="bookingSubmenu">
                     <li>
                         <a href="{% url 'easy:booking' %}">Booking</a>
@@ -43,10 +52,10 @@
                 </ul>
             </li>
             <li>
-                <a href="{% url 'easy:room' %}">Rooms</a>
+                <a href="{% url 'easy:guest' %}">Guests</a>
             </li>
             <li>
-                <a href="{% url 'easy:room_type' %}">Room types</a>
+                <a href="{% url 'easy:guest_add' %}">Add guest</a>
             </li>
             <li>
                 <a href="#guestSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Guests</a>
@@ -58,9 +67,6 @@
                         <a href="{% url 'easy:guest_add' %}">Add guest</a>
                     </li>
                 </ul>
-            </li>
-            <li>
-                <a href="#">Portfolio</a>
             </li>
             <li>
                 <a href="#">Contact</a>

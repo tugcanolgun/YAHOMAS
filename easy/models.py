@@ -4,23 +4,19 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import uuid
 
-
-class RoomType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.CharField(max_length=30)
-    bed_count = models.PositiveSmallIntegerField(default=1)
-    is_smoke = models.BooleanField(default=False)
-    is_balcony = models.BooleanField(default=False)
-    created_at = models.DateField(auto_now=True)
-    updated_at = models.DateField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
 class Rooms(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     room_number = models.CharField(max_length=30)
+    square_meter = models.FloatField(default=10.0, null=False)
+    price = models.FloatField(default=100.0, null=False)
+    single_bed = models.BooleanField(default=False)
+    double_bed = models.BooleanField(default=False)
+    child_bed = models.BooleanField(default=False)
+    has_view = models.BooleanField(default=False)
+    smokable = models.BooleanField(default=False)
+    has_balcony = models.BooleanField(default=False)
+    has_air_cond = models.BooleanField(default=False)
+    has_tv = models.BooleanField(default=False)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 

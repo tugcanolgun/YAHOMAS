@@ -20,20 +20,21 @@
                 </button>
             </div>
             <div class="card-body" style="color: royalblue">
-                Bed count: 
-                {% with ''|center:room.room_type.bed_count as range %}
-                {% for _ in range %}
-                    <i class="fas fa-bed"></i>
-                {% endfor %}
-                {% endwith %}
-                {% if room.room_type.is_smoke %}
-                    <br />Smoke allowed: <i class="fas fa-smoking"></i>
+                {% if room.single_bed %}
+                    <i class="fas fa-bed"></i> Single bed<br />
                 {% endif %}
-                {% if room.room_type.is_balcony %}
-                    <br />Has balcony: <i class="fas fa-ring"></i>
+                {% if room.double_bed %}
+                    <i class="fas fa-bed"></i> Double bed<br />
                 {% endif %}
-                <br /><i class="fas fa-wrench"></i> {{ room.updated_at }}
-                <br /><i class="far fa-calendar-alt"></i> {{ room.created_at }}
+                {% if room.child_bed %}
+                    <i class="fas fa-bed"></i> Child bed<br />
+                {% endif %}
+                {% if room.has_view %}
+                    <i class="fas fa-street-view"></i> Has view<br />
+                {% endif %}
+                <i class="fas fa-arrows-alt"></i>{{ room.square_meter }} m2<br />
+                <i class="far fa-calendar-alt"></i> {{ room.created_at }}<br />
+                <i class="fas fa-wrench"></i> {{ room.updated_at }}
 
             </div>
         </div>
