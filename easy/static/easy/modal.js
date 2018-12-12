@@ -22,3 +22,30 @@ $(document).ready(function () {
     });
 
 });
+
+// Put a listener on start date for auto input to end date input
+document.getElementById("id_start_date").addEventListener('change', doThing);
+
+function doThing(){
+    // This function is now absolete
+    end_date = document.getElementById("id_end_date");
+    end_date_value = end_date.value
+    start_date_value = document.getElementById("id_start_date").value;
+    // If end date value is empty
+    if (end_date_value === '') {
+        end_date.value = start_date_value;
+        end_date.focus();
+    } else {
+        // If start date is earlier than end date
+        if (new Date(start_date_value).valueOf() < new Date(end_date_value).valueOf()) {
+            end_date.value = start_date_value;
+            end_date.focus();
+        }
+    }
+}
+
+// Sortable tables
+$(document).ready(function () {
+$('#dtBasicExample').DataTable();
+$('.dataTables_length').addClass('bs-select');
+});

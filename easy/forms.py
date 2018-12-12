@@ -24,7 +24,7 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ('start_date', 'end_date', 'price', 'amount_paid', 'is_checked_in')
+        fields = ('room', 'start_date', 'end_date', 'price', 'amount_paid', 'is_checked_in')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -32,6 +32,10 @@ class BookingForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_action = 'add'
         self.helper.add_input(Submit('submit', 'Save Booking'))
+
+class SearchBookingForm(forms.Form):
+    start_date = forms.DateField(widget=forms.HiddenInput())  
+    end_date = forms.DateField(widget=forms.HiddenInput())  
 
 class RoomTypeForm(forms.ModelForm):
     class Meta:

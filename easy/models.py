@@ -24,6 +24,9 @@ class Rooms(models.Model):
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return self.room_number
+
 class Guests(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
@@ -34,6 +37,7 @@ class Guests(models.Model):
 
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     price = models.FloatField()

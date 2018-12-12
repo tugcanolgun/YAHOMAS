@@ -180,3 +180,16 @@ a.article:hover {
         margin-left: 0;
     }
 }
+
+.date-picker {
+    background: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    font-size: 22px;
+    color: #47748b;
+}
+
+.search-bookings {
+    font-size: 22px;
+}
