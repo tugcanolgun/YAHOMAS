@@ -21,6 +21,7 @@
     }
 
     $('#reportrange').daterangepicker({
+        minDate: start,
         startDate: start,
         endDate: end,
     }, cb);
@@ -30,10 +31,6 @@
     $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
         console.log("clicked apply");
         document.forms['booking-search'].submit();
-    });
-    $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-        console.log(picker.startDate.format('YYYY-MM-DD'));
-        console.log(picker.endDate.format('YYYY-MM-DD'));
     });
 
 </script>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, Guests, RoomType, Rooms
+from .models import Booking, Guests, Rooms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
@@ -37,23 +37,22 @@ class SearchBookingForm(forms.Form):
     start_date = forms.DateField(widget=forms.HiddenInput())  
     end_date = forms.DateField(widget=forms.HiddenInput())  
 
-class RoomTypeForm(forms.ModelForm):
-    class Meta:
-        model = RoomType
-        fields = ('name', 'bed_count', 'is_smoke', 'is_balcony')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'add'
-        self.helper.add_input(Submit('submit', 'Save room type'))
-
 class RoomsForm(forms.ModelForm):
     # number_of_beds = forms.IntegerField( widget=forms.TextInput(attrs={'placeholder': 'Input_A', 'style': 'margin-left: 50px'}))
     class Meta:
         model = Rooms
-        fields = ('room_type', 'room_number')
+        fields = ('room_number', 
+            'price',
+            'square_meter',
+            'single_bed',
+            'double_bed',
+            'child_bed',
+            'has_view',
+            'smokable',
+            'has_balcony',
+            'has_air_cond',
+            'has_tv',
+            )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
