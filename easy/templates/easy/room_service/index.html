@@ -2,17 +2,33 @@
 
 {% block content %}
 {% include "easy/message.html" %}
-    {% include "easy/form_snippet.html" %}
 
+    <div class="row">
+        <button data-whatever="Add new item" style="margin: 0.5em;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add new item
+        </button>
+    </div>
 {% if items %}
 {% for item in items %}
     <div class="row">
-        <a href="{% url 'easy:room_service_delete' item.id %}">X</a> 
-        {{ item.name }} {{ item.price }}
-        <img src="{{ item.image.url }}">
+        {% url 'easy:room_service_delete' item.id as link %}
+        <div class="card" style="width: 18rem; margin: 0.5em;">
+            <div class="card-header d-flex justify-content-between w-100">
+                <a href="{% url 'easy:room_service' %}"><span style="font-size: 18px;">{{ item.name }} - {{ item.price }}</span></a>
+                <button type="button" onclick="changeBody('{{ item.name }}', '{{ link }}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                    X
+                </button>
+            </div>
+            <div class="card-body" style="color: royalblue">
+                <img src="{{ item.image.url }}" width="100%", height="100%">
+            </div>
+        </div>
     </div>
 {% endfor %}
 
 {% endif %}
+
+{% include "easy/form_modal.html" %}
+{% include "easy/modals.html" %}
 {% endblock %}
 

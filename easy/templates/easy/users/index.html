@@ -1,0 +1,39 @@
+{% extends 'easy/base.html' %}
+
+{% block content %}
+{% include "easy/message.html" %}
+
+    <div class="row">
+        <button data-whatever="Add new user" style="margin: 0.5em;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add new user
+        </button>
+    </div>
+{% if users %}
+    <div class="row">
+{% for user in users %}
+    {% url 'easy:user_delete' user.id as link %}
+        </button>
+        <div class="card" style="width: 18rem; margin: 0.5em;">
+            <div class="card-header d-flex justify-content-between w-100">
+                <a href="{% url 'easy:users' %}"><span style="font-size: 18px;">{{ user.username }}</span></a>
+                <button type="button" onclick="changeBody('{{ user.username }}', '{{ link }}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                    X
+                </button>
+            </div>
+            <div class="card-body" style="color: royalblue">
+                {{ user.first_name }} <br />
+                {{ user.last_name }} <br />
+                {{ link }} <br />
+                asdf
+            </div>
+        </div>
+{% endfor %}
+    </div>
+
+{% endif %}
+
+{% include "easy/form_modal.html" %}
+{% include "easy/modals.html" %}
+{% endblock %}
+
+

@@ -76,13 +76,6 @@ class SignUpForm(UserCreationForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Sign up'))
 
-class NameForm(forms.Form):
-    your_name = forms.CharField(label='Your name', max_length=100)
-    subject = forms.CharField(max_length=100)
-    message = forms.CharField(widget=forms.Textarea)
-    sender = forms.EmailField()
-    cc_myself = forms.BooleanField(required=False)
-
 class RoomServiceForm(forms.ModelForm):
     class Meta:
         model = RoomService
@@ -94,3 +87,15 @@ class RoomServiceForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_action = 'add'
         self.helper.add_input(Submit('submit', 'Save Item'))
+
+class UsersForm(UserCreationForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Save User'))
