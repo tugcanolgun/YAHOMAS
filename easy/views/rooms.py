@@ -29,7 +29,7 @@ def room(request, room_id=None):
 
 def room_add(request):
     if request.method == 'POST':
-        form = RoomsForm(request.POST)
+        form = RoomsForm(request.POST, request.FILES)
         if form.is_valid():
             __room = form.save(commit=False)
             __room.save()

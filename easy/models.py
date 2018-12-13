@@ -17,6 +17,7 @@ class Rooms(models.Model):
     has_balcony = models.BooleanField(default=False)
     has_air_cond = models.BooleanField(default=False)
     has_tv = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='images/rooms/', null=True)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -46,23 +47,25 @@ class GuestBooking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     guest = models.ForeignKey(Guests, on_delete=models.CASCADE)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now=True)
+    updated_at = models.DateField(auto_now=True)
 
+class RoomService(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    name = models.CharField(max_length=30, null=False)
+    price = models.FloatField(default=10.0, null=False)
+    image = models.ImageField(upload_to='images/items/', null=True)
+    created_at = models.DateField(auto_now=True)
+    updated_at = models.DateField(auto_now=True)
 
-class Profile(models.Model):
-    USER_TYPE_CHOICES = (
-        (1, 'admin'),
-        (2, 'manager'),
-        (3, 'receptionist'),
-        (4, 'roomservicer'),
-    )
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=2)
+    def __str__(self):
+        return self.name
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+class RoomServiceBooking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    item = models.ForeignKey(RoomService, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now=True)
+    updated_at = models.DateField(auto_now=True)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()

@@ -1,0 +1,18 @@
+{% extends 'easy/base.html' %}
+
+{% block content %}
+{% include "easy/message.html" %}
+    {% include "easy/form_snippet.html" %}
+
+{% if items %}
+{% for item in items %}
+    <div class="row">
+        <a href="{% url 'easy:room_service_delete' item.id %}">X</a> 
+        {{ item.name }} {{ item.price }}
+        <img src="{{ item.image.url }}">
+    </div>
+{% endfor %}
+
+{% endif %}
+{% endblock %}
+
