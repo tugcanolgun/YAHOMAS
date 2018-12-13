@@ -2,15 +2,14 @@
 
 {% block content %}
 {% include "easy/message.html" %}
-
     <div class="row">
         <button data-whatever="Add new item" style="margin: 0.5em;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             Add new item
         </button>
     </div>
 {% if items %}
-{% for item in items %}
     <div class="row">
+{% for item in items %}
         {% url 'easy:room_service_delete' item.id as link %}
         <div class="card" style="width: 18rem; margin: 0.5em;">
             <div class="card-header d-flex justify-content-between w-100">
@@ -23,9 +22,8 @@
                 <img src="{{ item.image.url }}" width="100%", height="100%">
             </div>
         </div>
-    </div>
 {% endfor %}
-
+    </div>
 {% endif %}
 
 {% include "easy/form_modal.html" %}

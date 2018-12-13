@@ -19,8 +19,6 @@ def room_service(request, room_id=None):
         items = RoomService.objects.order_by('-created_at')[:10]
         context = {'items': items, 'form': form}
         return render(request, 'easy/room_service/index.html', context)
-
-def room_service_add(request):
     if request.method == 'POST':
         form = RoomServiceForm(request.POST, request.FILES)
         if form.is_valid():

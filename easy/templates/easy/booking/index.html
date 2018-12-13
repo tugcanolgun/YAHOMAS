@@ -1,18 +1,17 @@
 {% extends 'easy/base.html' %}
 
 {% block content %}
+{% include "easy/message.html" %}
 <div class="container-fluid">
+    <div class="row">
+        <button data-whatever="Add new booking" style="margin: 0.5em;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add new booking
+        </button>
+    </div>
     <div class="row">
 
 {% if bookings %}
     <ul>
-
-    {% if messages %}
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><span style="color: green">{{ message }}</span></li>
-        <!-- <span style="color: green">{{ message }}</span> -->
-        {% endfor %}
-    {% endif %}
     {% for booking in bookings %}
         <li><a href="{% url 'easy:booking_delete' booking.id %}">Delete</a> {{ booking }}</li>
         
@@ -24,6 +23,8 @@
     </div>
 </div>
 
+{% include "easy/form_modal.html" %}
+{% include "easy/modals.html" %}
 {% endblock %}
 
 

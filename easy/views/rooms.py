@@ -15,25 +15,23 @@ logger = logging.getLogger(__name__)
 def room(request, room_id=None):
     if request.method == 'GET':
         if not room_id:
-            print('========================================================================')
             form = RoomsForm()
-            form.helper.form_action = reverse('easy:room_add')
+            form.helper.form_action = reverse('easy:room')
             rooms = Rooms.objects.order_by('-created_at')[:10]
             context = {'rooms': rooms, 'form': form}
             return render(request, 'easy/room/index.html', context)
         else:
-            print('===++++++=======================================================================')
             room = Rooms.objects.get(id=room_id)
             context = {'room': room}
             return render(request, 'easy/room/detail.html', context)
-
-def room_add(request):
     if request.method == 'POST':
         form = RoomsForm(request.POST, request.FILES)
         if form.is_valid():
             __room = form.save(commit=False)
             __room.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        logger.warning("Could not add the room")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def room_delete(request, room_id):
     _room = Rooms.objects.get(id=room_id)
