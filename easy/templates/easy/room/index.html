@@ -24,10 +24,10 @@
                     <i class="fas fa-bed"></i> Single bed<br />
                 {% endif %}
                 {% if room.double_bed %}
-                    <i class="fas fa-bed"></i> Double bed<br />
+                    <i class="fas fa-bed"></i> <i class="fas fa-male"></i> <i class="fas fa-female"></i> Double bed<br />
                 {% endif %}
                 {% if room.child_bed %}
-                    <i class="fas fa-bed"></i> Child bed<br />
+                    <i class="fas fa-bed"></i> <i class="fas fa-baby"></i> Child bed<br />
                 {% endif %}
                 {% if room.has_view %}
                     <i class="fas fa-street-view"></i> Has view<br />
@@ -35,10 +35,6 @@
                 <i class="fas fa-arrows-alt"></i>{{ room.square_meter }} m2<br />
                 <i class="far fa-calendar-alt"></i> {{ room.created_at }}<br />
                 <i class="fas fa-wrench"></i> {{ room.updated_at }}
-                {% if room.image %}
-                    <img src="{{ room.image.url }}" width="100%">
-                {% endif %}
-
             </div>
         </div>
         

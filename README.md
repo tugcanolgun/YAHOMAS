@@ -1,4 +1,7 @@
-# SWE599
+# YAHOMAS
+
+YAHOMAS stands for 'yet another hotel management system'
+
 This is an in-development project for SWE599 class in Bogazici University.
 
 The aim is to build a guest management system for hotels.
