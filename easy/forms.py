@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, Guests, Rooms
+from .models import Booking, Guests, Rooms, RoomService
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
@@ -44,6 +44,7 @@ class RoomsForm(forms.ModelForm):
         fields = ('room_number', 
             'price',
             'square_meter',
+            'image',
             'single_bed',
             'double_bed',
             'child_bed',
@@ -81,3 +82,15 @@ class NameForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()
     cc_myself = forms.BooleanField(required=False)
+
+class RoomServiceForm(forms.ModelForm):
+    class Meta:
+        model = RoomService
+        fields = ('name', 'price', 'image')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'add'
+        self.helper.add_input(Submit('submit', 'Save Item'))
