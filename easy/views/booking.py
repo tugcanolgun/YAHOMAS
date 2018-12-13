@@ -14,21 +14,18 @@ logger = logging.getLogger(__name__)
 
 def booking(request):
     if request.method == 'GET':
+        form = BookingForm()
         bookings = Booking.objects.order_by('-created_at')[:10]
-        context = {'bookings': bookings}
+        context = {'bookings': bookings, 'form': form}
         return render(request, 'easy/booking/index.html', context)
-
-def booking_add(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
             __booking = form.save(commit=False)
             __booking.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-    else:
-        form = BookingForm()
-
-    return render(request, 'easy/booking/add.html', {'form': form})
+        logger.warning("Could not add the booking")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def booking_delete(request, booking_id):
     _booking = Booking.objects.get(id=booking_id)

@@ -32,9 +32,6 @@
                         <a href="{% url 'easy:booking' %}">Booking</a>
                     </li>
                     <li>
-                        <a href="{% url 'easy:booking_add' %}">Add booking</a>
-                    </li>
-                    <li>
                         <a href="{% url 'easy:room' %}">Rooms</a>
                     </li>
             <li>
@@ -42,9 +39,6 @@
                 <ul class="collapse list-unstyled" id="bookingSubmenu">
                     <li>
                         <a href="{% url 'easy:booking' %}">Booking</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'easy:booking_add' %}">Add booking</a>
                     </li>
                     <li>
                         <a href="{% url 'easy:room' %}">Rooms</a>
@@ -55,16 +49,10 @@
                 <a href="{% url 'easy:guest' %}">Guests</a>
             </li>
             <li>
-                <a href="{% url 'easy:guest_add' %}">Add guest</a>
-            </li>
-            <li>
                 <a href="#guestSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Guests</a>
                 <ul class="collapse list-unstyled" id="guestSubmenu">
                     <li>
                         <a href="{% url 'easy:guest' %}">Guests</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'easy:guest_add' %}">Add guest</a>
                     </li>
                 </ul>
             </li>

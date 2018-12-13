@@ -13,22 +13,19 @@ logger = logging.getLogger(__name__)
 
 def guest(request):
     if request.method == 'GET':
+        form = AddGuest()
         guests = Guests.objects.order_by('-created_at')[:10]
-        context = {'guests': guests}
+        context = {'guests': guests, 'form': form}
         return render(request, 'easy/guest/index.html', context)
-
-def guest_add(request):
     if request.method == 'POST':
         form = AddGuest(request.POST)
         if form.is_valid():
             __guest = form.save(commit=False)
             __guest.save()
             logger.info(f"Guest save successful")
-            return redirect(request.META['HTTP_REFERER'])
-            # return HttpResponseRedirect('/thanks/')
-    else:
-        form = AddGuest()
-    return render(request, 'easy/guest/add.html', {'form': form})
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        logger.warning("Could not add the guest")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def guest_delete(request, guest_id):
     """ Delete the guest if exists

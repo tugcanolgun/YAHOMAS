@@ -15,7 +15,6 @@ class AddGuest(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.form_action = 'add'
         self.helper.add_input(Submit('submit', 'Save Guest'))
 
 class BookingForm(forms.ModelForm):
@@ -30,7 +29,6 @@ class BookingForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.form_action = 'add'
         self.helper.add_input(Submit('submit', 'Save Booking'))
 
 class SearchBookingForm(forms.Form):
@@ -85,7 +83,6 @@ class RoomServiceForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.form_action = 'add'
         self.helper.add_input(Submit('submit', 'Save Item'))
 
 class UsersForm(UserCreationForm):
