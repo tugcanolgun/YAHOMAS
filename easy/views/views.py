@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
+from django import forms
 
 # from ..models import RoomType, Guests, Booking, Rooms, RoomType
 from ..forms import SearchBookingForm
@@ -16,6 +17,8 @@ def index(request):
     # context = {'latest_question_list': latest_question_list}
     if request.method == 'POST':
         form = SearchBookingForm(request.POST)
+        form.fields['start_date'].widget = forms.HiddenInput()
+        form.fields['end_date'].widget = forms.HiddenInput()
         if form.is_valid():
             return redirect(request.META['HTTP_REFERER'])
     else:

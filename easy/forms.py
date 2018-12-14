@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, Guests, Rooms, RoomService
+from .models import Booking, Guests, Rooms, RoomService, GuestBooking
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
@@ -17,13 +17,24 @@ class AddGuest(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save Guest'))
 
+class GuestBookingForm(forms.ModelForm):
+    class Meta:
+        model = GuestBooking
+        fields = ('guest', 'booking')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Save Guest'))
+
 class BookingForm(forms.ModelForm):
     start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  
     end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  
 
     class Meta:
         model = Booking
-        fields = ('room', 'start_date', 'end_date', 'price', 'amount_paid', 'is_checked_in')
+        fields = ('room', 'start_date', 'end_date', 'amount_paid', 'is_checked_in')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,6 +45,15 @@ class BookingForm(forms.ModelForm):
 class SearchBookingForm(forms.Form):
     start_date = forms.DateField(widget=forms.HiddenInput())  
     end_date = forms.DateField(widget=forms.HiddenInput())  
+    single_bed = forms.BooleanField(required=False)
+    double_bed = forms.BooleanField(initial=True, required=False)
+    child_bed = forms.BooleanField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Search'))
 
 class RoomsForm(forms.ModelForm):
     # number_of_beds = forms.IntegerField( widget=forms.TextInput(attrs={'placeholder': 'Input_A', 'style': 'margin-left: 50px'}))

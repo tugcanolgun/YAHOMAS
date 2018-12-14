@@ -13,7 +13,7 @@
 {% if bookings %}
     <ul>
     {% for booking in bookings %}
-        <li><a href="{% url 'easy:booking_delete' booking.id %}">Delete</a> {{ booking }}</li>
+        <li><a href="{% url 'easy:booking_delete' booking.id %}">Delete</a> {{ booking }} <a href="{% url 'easy:booking_update' booking.id %}">Update</a></li>
         
     {% endfor %}
     </ul>

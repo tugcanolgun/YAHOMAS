@@ -10,8 +10,10 @@ urlpatterns = [
     path('guest/delete/<uuid:guest_id>', views.guest_delete, name='guest_delete'),
 
     path('booking/', views.booking, name='booking'),
+    path('booking/add/<uuid:room_id>/<str:start_date>/<str:end_date>', views.booking_add, name='booking_add'),
     path('booking/delete/<uuid:booking_id>', views.booking_delete, name='booking_delete'),
-    path('booking/search', views.booking_search, name='booking_search'),
+    path('booking/user/add/<uuid:booking_id>', views.booking_user_add, name='booking_user_add'),
+    path('booking/update/<uuid:booking_id>', views.booking_update, name='booking_update'),
 
     path('room_service/', views.room_service, name='room_service'),
     path('room_service/delete/<uuid:room_service_id>', views.room_service_delete, name='room_service_delete'),
