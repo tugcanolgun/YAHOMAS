@@ -29,19 +29,26 @@ class Guests(models.Model):
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     id_number = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='images/guests/', null=True)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.name + ' ' + self.surname
 
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    price = models.FloatField()
     amount_paid = models.FloatField(default=0)
     is_checked_in = models.BooleanField(default=False)
+    active = models.BooleanField(default=False)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.room.room_number + ' - ' + str(self.start_date) + ' ' + str(self.end_date)
 
 class GuestBooking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -68,4 +75,7 @@ class RoomServiceBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.booking.room.room_number + ' ' + self.item.name
 
