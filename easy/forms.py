@@ -1,9 +1,10 @@
 from django import forms
-from .models import Booking, Guests, Rooms, RoomService, GuestBooking
+from .models import Booking, Guests, Rooms, RoomService, GuestBooking, User
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from django.conf import settings
 
 class AddGuest(forms.ModelForm):
     name = forms.CharField(max_length=40)
@@ -106,13 +107,9 @@ class RoomServiceForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Save Item'))
 
 class UsersForm(UserCreationForm):
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save User'))
+        fields = ('username', 'first_name', 'last_name', 'user_type')

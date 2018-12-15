@@ -2,6 +2,7 @@
 
 {% block content %}
 {% include "easy/message.html" %}
+{% load crispy_forms_tags %}
 
     <div class="row">
         <button data-whatever="Add new user" style="margin: 0.5em;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -24,15 +25,34 @@
                 {{ user.first_name }} <br />
                 {{ user.last_name }} <br />
                 {{ link }} <br />
-                asdf
+                {{ user.user_type }} <br />
             </div>
         </div>
 {% endfor %}
     </div>
 
 {% endif %}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {{ profile_form|crispy }}
+            <button type="submit">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-{% include "easy/form_modal.html" %}
 {% include "easy/modals.html" %}
 {% endblock %}
 
