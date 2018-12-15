@@ -1,6 +1,7 @@
 import logging
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
@@ -38,9 +39,9 @@ def booking(request):
                 end_date__gte=start,
                 ).values('room_id'))
             rooms = Rooms.objects.exclude(id__in=booked).filter(
-                single_bed=form.cleaned_data['single_bed'],
-                double_bed=form.cleaned_data['double_bed'],
-                child_bed=form.cleaned_data['child_bed']
+                Q(single_bed=form.cleaned_data['single_bed']) |
+                Q(double_bed=form.cleaned_data['double_bed']) |
+                Q(child_bed=form.cleaned_data['child_bed'])
             )
             form = SearchBookingForm(initial=_time)
             return render(request, 'easy/booking/results.html', {'form': form, 'results': rooms, 'time': _time})
