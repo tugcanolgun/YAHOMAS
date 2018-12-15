@@ -1,8 +1,6 @@
 import logging
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-# from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
@@ -16,15 +14,19 @@ logger = logging.getLogger(__name__)
 
 def users(request, room_id=None):
     if request.method == 'GET':
-        form = UsersForm()        
+        form = UsersForm()
+        # profile_form = ProfileForm(request.POST or None)
         # form.helper.form_action = reverse('easy:room_add')
         users = User.objects.order_by('-date_joined')[:10]
-        context = {'users': users, 'form': form}
+        context = {
+            'users': users, 
+            'form': form, 
+            # 'profile_form': profile_form
+            }
         return render(request, 'easy/users/index.html', context)
     if request.method == 'POST':
-        form = UsersForm(request.POST)
+        form = UsersForm(request.POST or None)
         if form.is_valid():
-            # print(request.FILES['photo'])
             __user = form.save(commit=False)
             __user.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 import uuid
 
 class Rooms(models.Model):
@@ -72,10 +73,18 @@ class RoomServiceBooking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     item = models.ForeignKey(RoomService, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.booking.room.room_number + ' ' + self.item.name
 
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'admin'),
+        (2, 'manager'),
+        (3, 'receptionist'),
+        (4, 'roomservicer'),
+    )
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=2)
