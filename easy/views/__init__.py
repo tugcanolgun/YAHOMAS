@@ -4,3 +4,4 @@ from .booking import *
 from .rooms import *
 from .room_service import *
 from .users import *
+from .api import *

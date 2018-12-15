@@ -24,6 +24,11 @@ urlpatterns = [
 
     path('users/', views.users, name='users'),
     path('users/delete/<uuid:user_id>', views.user_delete, name='user_delete'),
+
+    path('api/rooms', views.room_list),
+    path('api/items', views.items_list),
+    path('api/items/<uuid:booking_id>', views.items),
+    # path('api/rooms', views.room_list)
     # path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     # path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     # path('<int:question_id>/vote/', views.vote, name='vote'),
