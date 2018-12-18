@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
 
-from ..models import Rooms
+from ..models import Rooms, Booking
 from ..forms import RoomsForm
 
 logging.basicConfig(level=logging.INFO)
@@ -22,7 +22,9 @@ def room(request, room_id=None):
             return render(request, 'easy/room/index.html', context)
         else:
             room = Rooms.objects.get(id=room_id)
-            context = {'room': room}
+            bookings = Booking.objects.filter(room=room).order_by('-created_at').all()
+            form = RoomsForm(request.POST or None, instance=room)
+            context = {'room': room, 'bookings': bookings, 'form': form}
             return render(request, 'easy/room/detail.html', context)
     if request.method == 'POST':
         form = RoomsForm(request.POST, request.FILES)

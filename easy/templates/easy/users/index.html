@@ -21,11 +21,10 @@
                     X
                 </button>
             </div>
-            <div class="card-body" style="color: royalblue">
-                {{ user.first_name }} <br />
-                {{ user.last_name }} <br />
-                {{ link }} <br />
-                {{ user.user_type }} <br />
+            <div class="card-body" style="color: dimgrey">
+                Name: <span class="f-right">{{ user.first_name }}</span> <br />
+                Surname: <span class="f-right">{{ user.last_name }}</span> <br />
+                Role: <span class="f-right">{{ user.get_user_type_display }} </span><br />
             </div>
         </div>
 {% endfor %}

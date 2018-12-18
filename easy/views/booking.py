@@ -16,11 +16,13 @@ logger = logging.getLogger(__name__)
 
 def booking(request):
     if request.method == 'GET':
+        Booking.objects.filter(active=False).delete()
         form = BookingForm()
-        bookings = Booking.objects.order_by('-created_at')[:10]
+        bookings = Booking.objects.order_by('-created_at')
         context = {'bookings': bookings, 'form': form}
         return render(request, 'easy/booking/index.html', context)
     if request.method == 'POST':
+        Booking.objects.filter(active=False).delete()
         form = SearchBookingForm(request.POST)
         if form.is_valid():
             start = form.cleaned_data['start_date']
@@ -38,9 +40,10 @@ def booking(request):
                 start_date__lte=end, 
                 end_date__gte=start,
                 ).values('room_id'))
+            print(form.cleaned_data['single_bed'])
             rooms = Rooms.objects.exclude(id__in=booked).filter(
-                Q(single_bed=form.cleaned_data['single_bed']) |
-                Q(double_bed=form.cleaned_data['double_bed']) |
+                Q(single_bed=form.cleaned_data['single_bed']) &
+                Q(double_bed=form.cleaned_data['double_bed']) &
                 Q(child_bed=form.cleaned_data['child_bed'])
             )
             form = SearchBookingForm(initial=_time)
@@ -52,6 +55,8 @@ def booking_add(request, room_id, start_date, end_date):
         _room = Rooms.objects.get(id=room_id)
         form = BookingForm(initial={'room': _room, 'start_date': start_date, 'end_date': end_date})
         form.fields['room'].widget = forms.HiddenInput()
+        form.fields['start_date'].widget = forms.HiddenInput()
+        form.fields['end_date'].widget = forms.HiddenInput()
         return render(request, 'easy/common/add.html', {'form': form})
     if request.method == 'POST':
         form = BookingForm(request.POST)
@@ -66,6 +71,7 @@ def booking_add(request, room_id, start_date, end_date):
 def booking_user_add(request, booking_id):
     instance = get_object_or_404(Booking, id=booking_id)
     form = GuestBookingForm(request.POST or None, initial={'booking': instance})
+    form.fields['booking'].widget = forms.HiddenInput()
     if form.is_valid():
         _guest = form.save(commit=False)
         _guest.save()

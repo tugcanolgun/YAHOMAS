@@ -10,6 +10,7 @@ class Rooms(models.Model):
     room_number = models.CharField(max_length=30)
     square_meter = models.FloatField(default=10.0, null=False)
     price = models.FloatField(default=100.0, null=False)
+    floor = models.IntegerField(default=1)
     single_bed = models.BooleanField(default=False)
     double_bed = models.BooleanField(default=False)
     child_bed = models.BooleanField(default=False)
@@ -88,3 +89,4 @@ class User(AbstractUser):
         (4, 'roomservicer'),
     )
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=2)
+    image = models.ImageField(upload_to='images/users/', null=True)

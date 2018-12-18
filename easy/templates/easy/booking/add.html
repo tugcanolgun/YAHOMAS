@@ -1,0 +1,15 @@
+{% extends 'easy/base.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+<form method="POST" action="{% url 'easy:booking_update' booking.id %}">
+{% csrf_token %}
+{{ form }}
+<input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
+
+{% endblock %}
+
+

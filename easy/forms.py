@@ -8,9 +8,10 @@ from django.conf import settings
 
 class AddGuest(forms.ModelForm):
     name = forms.CharField(max_length=40)
+    image = forms.ImageField(required=False)
     class Meta:
         model = Guests
-        fields = ('name', 'surname')
+        fields = ('name', 'surname', 'id_number', 'image')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -57,12 +58,18 @@ class SearchBookingForm(forms.Form):
         self.helper.add_input(Submit('submit', 'Search'))
 
 class RoomsForm(forms.ModelForm):
-    # number_of_beds = forms.IntegerField( widget=forms.TextInput(attrs={'placeholder': 'Input_A', 'style': 'margin-left: 50px'}))
+    image = forms.ImageField(required=False)
+    has_view = forms.BooleanField(required=False, initial=False)
+    smokable = forms.BooleanField(required=False, initial=False)
+    has_balcony = forms.BooleanField(required=False, initial=True)
+    has_air_cond = forms.BooleanField(required=False, initial=True)
+    has_tv = forms.BooleanField(required=False, initial=True)
     class Meta:
         model = Rooms
         fields = ('room_number', 
             'price',
             'square_meter',
+            'floor',
             'image',
             'single_bed',
             'double_bed',
@@ -81,8 +88,8 @@ class RoomsForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Save Room'))
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
 
     class Meta:
