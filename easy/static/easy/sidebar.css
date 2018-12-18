@@ -188,8 +188,5 @@ a.article:hover {
     border: 1px solid #ccc;
     font-size: 22px;
     color: #47748b;
-}
-
-.search-bookings {
-    font-size: 22px;
+    width: 100%;
 }

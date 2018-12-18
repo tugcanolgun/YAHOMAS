@@ -2,11 +2,24 @@
 
 {% block content %}
 <div class="container-fluid">
-  <div>
-{% if room %}
-    <ul>
 
-    {% include "easy/message.html" %}
+{% include "easy/message.html" %}
+{% if room %}
+    <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+            Information
+        </a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+            Logs
+        </a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">
+            Update
+        </a>
+    </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
     {{ room.room_number }} <br>
     {{ room.room_type }} <br>
     {{ room.number_of_beds }} <br>
@@ -14,10 +27,19 @@
     {{ room.is_balcony }} <br>
     {{ room.created_at }} <br>
     {{ room.updated_at }} <br>
-    </ul>
+    {{ bookings }}
+    </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+    </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        {% include "easy/form_snippet.html" %}
+    </div>
+    </div>
+
 {% else %}
     <p>No room could be found.</p>
 {% endif %}
-    </div>
 </div>
+
 {% endblock %}

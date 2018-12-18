@@ -1,12 +1,21 @@
 {% extends 'easy/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container-fluid">
+    {% include "easy/booking/search_form.html" %}
     <div class="row">
-        <span class="search-bookings">Search Bookings</span>
+        {% for stat in stats %}
+            <div class="col-md-4 col-xl-3">
+                <div class="card {% cycle 'bg-c-yellow' 'bg-c-green' 'bg-c-pink' 'bg-c-blue' 'bg-c-orange' %} order-card">
+                    <div class="card-block">
+                        <h5 class="m-b-20">{{ stat.title }}</h5>
+                        <h2 class="text-right"><i style="margin-top: 6px;" class="{{ stat.font }} f-left"></i><span>{{ stat.number }}</span></h2>
+                        <p class="m-b-0"><span class="f-right">{{ stat.sub }}</span></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    <!-- <div class="row"> -->
-        {% include "easy/booking/search_form.html" %}
-    <!-- </div> -->
 </div>
 {% endblock %}

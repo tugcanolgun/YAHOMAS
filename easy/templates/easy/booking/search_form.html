@@ -1,16 +1,23 @@
-<div class="row">
-    <div id="reportrange" class="date-picker">
-        <i class="fa fa-calendar"></i>&nbsp;
-        <span></span> 
+<div class="row centered-row">
+<div class="col card bg-c-yellow order-card p-5">
+    <div class="row centered-row">
+        <span class="search-bookings">Search Bookings</span>
+    </div>
+    <div class="row">
+        <div id="reportrange" class="date-picker">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> 
+        </div>
+    </div>
+    <div class="row centered-row">
+        <form action="{% url 'easy:booking' %}" name="booking-search" method="post">
+            {% load crispy_forms_tags %}
+            {% csrf_token %}
+            {% crispy form %}
+            <input type="submit" hidden value="Submit">
+        </form>
     </div>
 </div>
-<div class="row">
-    <form action="{% url 'easy:booking' %}" name="booking-search" method="post">
-        {% load crispy_forms_tags %}
-        {% csrf_token %}
-        {% crispy form %}
-        <input type="submit" hidden value="Submit">
-    </form>
 </div>
 <script type="text/javascript">
 

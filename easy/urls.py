@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('booking/', views.booking, name='booking'),
     path('booking/add/<uuid:room_id>/<str:start_date>/<str:end_date>', views.booking_add, name='booking_add'),
+    # path('booking/save/<uuid:room_id>/<uuid:booking_id>', views.booking_save, name='booking_save'),
     path('booking/delete/<uuid:booking_id>', views.booking_delete, name='booking_delete'),
     path('booking/user/add/<uuid:booking_id>', views.booking_user_add, name='booking_user_add'),
     path('booking/update/<uuid:booking_id>', views.booking_update, name='booking_update'),
