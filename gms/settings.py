@@ -25,7 +25,7 @@ SECRET_KEY = 'kyt)urp=*m8^q!!b9e53lqdp_a(abf^r5$w-b$)y1&vc_pz3wc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'easy.apps.EasyConfig',
     'crispy_forms',
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

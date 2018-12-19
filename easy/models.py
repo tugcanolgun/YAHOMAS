@@ -38,6 +38,11 @@ class Guests(models.Model):
     def __str__(self):
         return self.name + ' ' + self.surname
 
+class RoomCleaning(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    cleaning_time = models.DateField(auto_now=True)
+
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     room = models.ForeignKey(Rooms, on_delete=models.CASCADE)

@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.conf import settings
+from django.urls import reverse
+from dal import autocomplete
 
 class AddGuest(forms.ModelForm):
     name = forms.CharField(max_length=40)
@@ -17,9 +19,14 @@ class AddGuest(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.helper.form_action = reverse('easy:guest')
         self.helper.add_input(Submit('submit', 'Save Guest'))
 
 class GuestBookingForm(forms.ModelForm):
+    guest = forms.ModelChoiceField(
+        queryset=Guests.objects.all(),
+        widget=autocomplete.ModelSelect2(url='easy:guest_search')
+    )
     class Meta:
         model = GuestBooking
         fields = ('guest', 'booking')
@@ -29,6 +36,7 @@ class GuestBookingForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save Guest'))
+
 
 class BookingForm(forms.ModelForm):
     start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  

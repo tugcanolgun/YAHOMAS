@@ -17,7 +17,7 @@ def room(request, room_id=None):
         if not room_id:
             form = RoomsForm()
             form.helper.form_action = reverse('easy:room')
-            rooms = Rooms.objects.order_by('-created_at')[:10]
+            rooms = Rooms.objects.order_by('-created_at')
             context = {'rooms': rooms, 'form': form}
             return render(request, 'easy/room/index.html', context)
         else:

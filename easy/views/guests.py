@@ -4,12 +4,21 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
+from dal import autocomplete
 
 from ..models import Guests
 from ..forms import AddGuest
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+class GuestAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        query = Guests.objects.all()
+
+        if self.q:
+            query = query.filter(name__istartswith=self.q)
+        return query
 
 def guest(request):
     if request.method == 'GET':

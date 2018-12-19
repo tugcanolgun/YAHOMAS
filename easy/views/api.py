@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from easy.models import User, Rooms, Booking, RoomService, RoomServiceBooking
+from easy.models import User, Rooms, Booking, RoomService, RoomServiceBooking, RoomCleaning
 from easy.serializers import *
 from django.http import Http404
 from rest_framework.parsers import JSONParser
@@ -7,6 +7,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import datetime
+from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth import authenticate
+from rest_framework.permissions import AllowAny
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_401_UNAUTHORIZED,
+    HTTP_200_OK
+)
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -19,7 +28,22 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-def room_list(request):
+def cleaning(request, room_id=None):
+    if request.method == 'GET':
+        response = RoomCleaning.objects.all()
+        serializer = RoomCleaningSerializer(response, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = RoomCleaningSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def booking_list(request):
     if request.method == 'GET':
         today = datetime.date.today()
         response = Booking.objects.filter(
@@ -28,6 +52,13 @@ def room_list(request):
         ).all()
         # rooms = Rooms.objects.all()
         serializer = BookingSerializer(response, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def room_list(request):
+    if request.method == 'GET':
+        response = Rooms.objects.all()
+        serializer = RoomsSerializer(response, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
@@ -67,3 +98,20 @@ def items(request, booking_id):
             _item.delete()
             return HttpResponse(status=204)
         return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def login(request):
+    username = request.data.get("username")
+    password = request.data.get("password")
+    if username is None or password is None:
+        return Response({'error': 'Please provide both username and password'},
+                        status=HTTP_400_BAD_REQUEST)
+    user = authenticate(username=username, password=password)
+    if not user:
+        return Response({'error': 'Invalid Credentials'},
+                        status=HTTP_401_UNAUTHORIZED)
+    # token, _ = Token.objects.get_or_create(user=user)
+    return Response({'success': True},
+status=HTTP_200_OK)
