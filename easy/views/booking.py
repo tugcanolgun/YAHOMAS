@@ -70,19 +70,32 @@ def booking_add(request, room_id, start_date, end_date):
 
 def booking_user_add(request, booking_id):
     instance = get_object_or_404(Booking, id=booking_id)
-    form = GuestBookingForm(request.POST or None, initial={'booking': instance})
-    form.fields['booking'].widget = forms.HiddenInput()
-    if form.is_valid():
-        _guest = form.save(commit=False)
+    search_form = GuestBookingForm(request.POST or None, initial={'booking': instance})
+    form = AddGuest(request.POST or None)
+    search_form.fields['booking'].widget = forms.HiddenInput()
+    guests = GuestBooking.objects.filter(booking=booking_id).all()
+    if search_form.is_valid():
+        _guest = search_form.save(commit=False)
         _guest.save()
         _booking = Booking.objects.get(id=_guest.booking.id)
         _booking.active = True
         _booking.save()
         logger.info(f"Booking save successful")
         messages.success(request, "Guest is successfuly added to the booking")
-    if request.method == 'POST' and not form.is_valid():
+    if request.method == 'POST' and not search_form.is_valid():
         messages.success(request, "Guest could not be added to the booking")
-    return render(request, 'easy/common/add.html', {'form': form})
+    return render(request, 'easy/booking/add.html', {
+        'form': form,
+        'search_form': search_form,
+        'guests': guests
+        })
+
+def booking_user_delete(request, guest_booking_id):
+    instance = GuestBooking.objects.get(id=guest_booking_id)
+    if instance:
+        instance.delete()
+        messages.success(request, "Guest is successfuly deleted from this booking")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def booking_delete(request, booking_id):
     _booking = Booking.objects.get(id=booking_id)

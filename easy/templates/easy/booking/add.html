@@ -2,12 +2,29 @@
 
 {% block content %}
 
-{% load crispy_forms_tags %}
-<form method="POST" action="{% url 'easy:booking_update' booking.id %}">
-{% csrf_token %}
-{{ form }}
-<input class="btn btn-primary" type="submit" value="Submit">
-</form>
+{% include "easy/message.html" %}
+<div class="container-fluid">
+    <div class="row">
+        <button data-whatever="Add new user" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+            Add new user
+        </button>
+    </div>
+    <div class="row">
+        {% load crispy_forms_tags %}
+        {% csrf_token %}
+        {% crispy search_form %}
+    </div>
+    <div>
+        Guests:<br />
+        <ul class="list-group" style="max-width: 300px;">
+        {% for guest in guests %}
+             <li class="list-group-item"><span class="f-left"><a href="{% url 'easy:booking_user_delete' guest.id %}">X</a></span> <span class="f-right">{{ guest.guest.name }} {{ guest.guest.surname }}</span></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% include "easy/modals.html" %}
+{% include "easy/form_modal.html" %}
+</div>
 
 
 {% endblock %}

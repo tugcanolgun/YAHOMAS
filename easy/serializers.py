@@ -1,11 +1,16 @@
 from rest_framework import serializers
-from easy.models import User, Rooms, Booking, RoomService, RoomServiceBooking
+from easy.models import User, Rooms, Booking, RoomService, RoomServiceBooking, RoomCleaning
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'url', 'username', 'email', 'groups')
+
+class RoomCleaningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomCleaning
+        fields = '__all__'
 
 class RoomsSerializer(serializers.ModelSerializer):
     class Meta:
