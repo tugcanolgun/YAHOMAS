@@ -36,6 +36,18 @@ def guest(request):
         logger.warning("Could not add the guest")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+def guest_update(request, guest_id=None):
+    obj = get_object_or_404(Guests, id=guest_id)
+    form = AddGuest(request.POST or None,
+                        request.FILES or None, instance=obj)
+    form.helper.form_action = reverse('easy:guest_update', kwargs={'guest_id': guest_id})
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Guest is updated")
+            return redirect('easy:guest')
+    return render(request, 'easy/common/add.html', {'form': form})
+
 def guest_delete(request, guest_id):
     """ Delete the guest if exists
     Args:

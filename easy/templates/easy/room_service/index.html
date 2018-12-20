@@ -11,9 +11,9 @@
     <div class="row">
 {% for item in items %}
         {% url 'easy:room_service_delete' item.id as link %}
-        <div class="card" style="width: 18rem; margin: 0.5em;">
+        <div class="card" style="width: 12rem; margin: 0.5em;">
             <div class="card-header d-flex justify-content-between w-100">
-                <a href="{% url 'easy:room_service' %}"><span style="font-size: 18px;">{{ item.name }} - {{ item.price }}</span></a>
+                <a href="{% url 'easy:room_service_update' item.id %}"><span style="font-size: 18px;">{{ item.name }} - {{ item.price }}</span></a>
                 <button type="button" onclick="changeBody('{{ item.name }}', '{{ link }}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
                     X
                 </button>

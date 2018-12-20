@@ -5,7 +5,7 @@ import uuid
 
 class Rooms(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    room_number = models.CharField(max_length=30)
+    room_number = models.CharField(max_length=30, unique=True)
     square_meter = models.FloatField(default=10.0, null=False)
     price = models.FloatField(default=100.0, null=False)
     floor = models.IntegerField(default=1)
@@ -34,7 +34,7 @@ class Guests(models.Model):
     updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.name + ' ' + self.surname
+        return self.name + ' ' + self.surname + ' - ' + self.id_number
 
 class RoomCleaning(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
