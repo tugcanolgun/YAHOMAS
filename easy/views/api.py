@@ -87,16 +87,18 @@ def items(request, booking_id):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-    elif request.method == 'DELETE':
-        data = JSONParser().parse(request)
+@csrf_exempt
+def item_delete(request, item_id):
+    if request.method == 'DELETE':
         try:
-            _item = RoomServiceBooking.objects.get(id=data['id'])
+            _item = RoomServiceBooking.objects.get(id=item_id)
         except Booking.DoesNotExist:
             return HttpResponse(status=404)
-        serializer = RoomServiceBookingSerializer(_item, data=data)
-        if serializer.is_valid():
+        else:
             _item.delete()
             return HttpResponse(status=204)
+        # serializer = RoomServiceBookingSerializer(_item, data=data)
+        # if serializer.is_valid():
         return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
@@ -113,5 +115,5 @@ def login(request):
         return Response({'error': 'Invalid Credentials'},
                         status=HTTP_401_UNAUTHORIZED)
     # token, _ = Token.objects.get_or_create(user=user)
-    return Response({'success': True},
+    return Response({'user': user.id},
 status=HTTP_200_OK)
