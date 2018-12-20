@@ -13,6 +13,30 @@ from ..forms import BookingForm, SearchBookingForm, AddGuest, GuestBookingForm
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def get_rooms(booked: set, single: bool, double: bool, child: bool) -> Rooms:
+    """Gets the rooms from the given query"""
+    if not double and child:
+        return Rooms.objects.exclude(id__in=booked).filter(
+            Q(child_bed=child)
+        )
+    if double and not child:
+        return Rooms.objects.exclude(id__in=booked).filter(
+            Q(double_bed=double)
+        )
+    if double and child:
+        return Rooms.objects.exclude(id__in=booked).filter(
+            Q(double_bed=double) &
+            Q(child_bed=child)
+        )
+    if single and not double and not child:
+        return Rooms.objects.exclude(id__in=booked).filter(
+            Q(single_bed=single)
+        )
+    return Rooms.objects.exclude(id__in=booked).filter(
+        Q(single_bed=single) &
+        Q(double_bed=double) &
+        Q(child_bed=child)
+    )
 
 def booking(request):
     if request.method == 'GET':
@@ -27,25 +51,22 @@ def booking(request):
         if form.is_valid():
             start = form.cleaned_data['start_date']
             end = form.cleaned_data['end_date']
-            print(start, end)
+            single = form.cleaned_data['single_bed']
+            double = form.cleaned_data['double_bed']
+            child = form.cleaned_data['child_bed']
             _time = {
                 'start_date': start, 
                 'end_date': end,
-                'single_bed': form.cleaned_data['single_bed'],
-                'double_bed': form.cleaned_data['double_bed'],
-                'child_bed': form.cleaned_data['child_bed'],
+                'single_bed': single,
+                'double_bed': double,
+                'child_bed': child,
                 }
             # Rooms.objects.filter()
             booked = set(values['room_id'] for values in Booking.objects.filter(
                 start_date__lte=end, 
                 end_date__gte=start,
                 ).values('room_id'))
-            print(form.cleaned_data['single_bed'])
-            rooms = Rooms.objects.exclude(id__in=booked).filter(
-                Q(single_bed=form.cleaned_data['single_bed']) &
-                Q(double_bed=form.cleaned_data['double_bed']) &
-                Q(child_bed=form.cleaned_data['child_bed'])
-            )
+            rooms = get_rooms(booked, single, double, child)
             form = SearchBookingForm(initial=_time)
             return render(request, 'easy/booking/results.html', {'form': form, 'results': rooms, 'time': _time})
         return render(request, 'easy/booking/results.html', {'form': form})
@@ -53,6 +74,13 @@ def booking(request):
 def booking_add(request, room_id, start_date, end_date):
     if request.method == 'GET':
         _room = Rooms.objects.get(id=room_id)
+        booking = Booking(
+            room=_room,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        booking.save()
+        return redirect(reverse('easy:booking_user_add', kwargs={'booking_id': booking.id}))
         form = BookingForm(initial={'room': _room, 'start_date': start_date, 'end_date': end_date})
         form.fields['room'].widget = forms.HiddenInput()
         form.fields['start_date'].widget = forms.HiddenInput()
@@ -76,11 +104,19 @@ def booking_user_add(request, booking_id):
     guests = GuestBooking.objects.filter(booking=booking_id).all()
     if search_form.is_valid():
         _guest = search_form.save(commit=False)
+        if _guest.guest in (gst.guest for gst in guests):
+            messages.success(request, "Guest is already added")
+            return render(request, 'easy/booking/add.html', {
+                'form': form,
+                'search_form': search_form,
+                'guests': guests
+                })
         _guest.save()
         _booking = Booking.objects.get(id=_guest.booking.id)
         _booking.active = True
         _booking.save()
         logger.info(f"Booking save successful")
+        guests = GuestBooking.objects.filter(booking=booking_id).all()
         messages.success(request, "Guest is successfuly added to the booking")
     if request.method == 'POST' and not search_form.is_valid():
         messages.success(request, "Guest could not be added to the booking")

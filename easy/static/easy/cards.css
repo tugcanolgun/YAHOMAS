@@ -7,9 +7,14 @@
     font-size: 28px;
 }
 
+
 /* Component: Cards */
 .order-card {
     color: rgb(23, 22, 65);
+}
+
+.bg-c-gray {
+    background: linear-gradient(45deg,#b8b9b9,#949696);
 }
 
 .bg-c-blue {

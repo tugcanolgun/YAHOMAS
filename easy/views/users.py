@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def users(request, room_id=None):
+def users(request, user_id=None):
     if request.method == 'GET':
         form = UsersForm()
         # profile_form = ProfileForm(request.POST or None)
@@ -38,6 +38,18 @@ def users(request, room_id=None):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         messages.success(request, "Could not save the user")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def user_update(request, user_id=None):
+    obj = get_object_or_404(User, id=user_id)
+    form = UsersForm(request.POST or None,
+                        request.FILES or None, instance=obj)
+    form.helper.form_action = reverse('easy:user_update', kwargs={'user_id': user_id})
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "User is updated")
+            return redirect('easy:users')
+    return render(request, 'easy/common/add.html', {'form': form})
 
 def user_delete(request, user_id):
     _user = User.objects.get(id=user_id)

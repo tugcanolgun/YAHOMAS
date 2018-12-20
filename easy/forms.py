@@ -3,7 +3,7 @@ from .models import Booking, Guests, Rooms, RoomService, GuestBooking, User
 from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Submit, Layout, Div
 from django.conf import settings
 from django.urls import reverse
 from dal import autocomplete
@@ -63,6 +63,13 @@ class SearchBookingForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        # self.helper.layout = Layout(
+        #     Div (
+        #             Div('single_bed', css_class='col-4'),
+        #             Div('double_bed', css_class='col-4'),
+        #             Div('child_bed', css_class='col-4'), css_class='row'
+        #     ),
+        # )
         self.helper.add_input(Submit('submit', 'Search'))
 
 class RoomsForm(forms.ModelForm):
@@ -128,3 +135,9 @@ class UsersForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'user_type')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Save User'))

@@ -140,12 +140,34 @@ a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 
-#content {
+.content {
     width: 100%;
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
 }
+   @media screen and (max-width:1166px) {
+        .content{ padding:20px;}
+    }
+    @media screen and (max-width:1024px) {
+        .content{ padding:10px;}
+    }
+    @media screen and (max-width:980px) {
+        .content{ padding:10px;}
+    }
+    @media screen and (max-width:767px) {
+        .content{ padding:7px;}
+    }
+    @media screen and (max-width:599px) {
+        .content{ padding:0px;}
+    }
+    @media screen and (max-width:479px) {
+        .content{ padding:0px;}
+    }
+    @media screen and (max-width:374px) {
+        .content{ padding:0px;}
+    }
+
 #content-main {
     width: 100%;
     min-height: 100vh;
@@ -172,15 +194,6 @@ a.article:hover {
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-}
-
 .date-picker {
     background: #fff;
     cursor: pointer;
@@ -189,4 +202,13 @@ a.article:hover {
     font-size: 22px;
     color: #47748b;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
 }

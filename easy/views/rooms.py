@@ -24,15 +24,26 @@ def room(request, room_id=None):
             room = Rooms.objects.get(id=room_id)
             bookings = Booking.objects.filter(room=room).order_by('-created_at').all()
             form = RoomsForm(request.POST or None, instance=room)
+            form.helper.form_action = reverse('easy:room', kwargs={'room_id': room_id})
             context = {'room': room, 'bookings': bookings, 'form': form}
             return render(request, 'easy/room/detail.html', context)
     if request.method == 'POST':
-        form = RoomsForm(request.POST, request.FILES)
-        if form.is_valid():
-            __room = form.save(commit=False)
-            __room.save()
+        if not room_id:
+            form = RoomsForm(request.POST, request.FILES)
+            if form.is_valid():
+                __room = form.save(commit=False)
+                __room.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            logger.warning("Could not add the room")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        logger.warning("Could not add the room")
+
+        instance = get_object_or_404(Rooms, id=room_id)
+        form = RoomsForm(request.POST or None, instance=instance)
+        if form.is_valid():
+            form.save()
+            logger.warning("Changes are saved")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        logger.warning("Changes could not be saved")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def room_delete(request, room_id):
