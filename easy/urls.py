@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/rooms', views.room_list),
     path('api/items', views.items_list),
     path('api/items/<uuid:booking_id>', views.items),
+    path('api/items/delete/<uuid:item_id>', views.item_delete),
     path('api/cleaning', views.cleaning),
     path('api/cleaning/<uuid:booking_id>', views.cleaning),
     # path('api/rooms', views.room_list)

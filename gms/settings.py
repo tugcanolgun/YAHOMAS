@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from djangosecure import DjangoSecretKey, DjangoDatabaseSettings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kyt)urp=*m8^q!!b9e53lqdp_a(abf^r5$w-b$)y1&vc_pz3wc'
+
+SECRET_KEY_FILE_PATH = BASE_DIR + '/.env/secret'
+secret_key = DjangoSecretKey(SECRET_KEY_FILE_PATH)
+SECRET_KEY = secret_key.key
+# SECRET_KEY = 'kyt)urp=*m8^q!!b9e53lqdp_a(abf^r5$w-b$)y1&vc_pz3wc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,12 +96,17 @@ WSGI_APPLICATION = 'gms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+databases = DjangoDatabaseSettings(os.path.join(BASE_DIR, '.env/databases.cnf'))
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': databases.settings('production'),
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
