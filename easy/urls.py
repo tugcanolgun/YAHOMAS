@@ -12,10 +12,12 @@ urlpatterns = [
     path('guest/search', views.GuestAutocomplete.as_view(), name='guest_search'),
 
     path('booking/', views.booking, name='booking'),
+    path('booking/<uuid:booking_id>', views.booking_detail, name='booking_detail'),
     path('booking/add/<uuid:room_id>/<str:start_date>/<str:end_date>', views.booking_add, name='booking_add'),
     path('booking/delete/<uuid:booking_id>', views.booking_delete, name='booking_delete'),
     path('booking/update/<uuid:booking_id>', views.booking_update, name='booking_update'),
     path('booking/user/add/<uuid:booking_id>', views.booking_user_add, name='booking_user_add'),
+    path('booking/invoice/<uuid:booking_id>', views.booking_invoice, name='booking_invoice'),
     path('booking/user/delete/<uuid:guest_booking_id>', views.booking_user_delete, name='booking_user_delete'),
 
     path('room_service/', views.room_service, name='room_service'),
@@ -23,7 +25,7 @@ urlpatterns = [
     path('room_service/update/<uuid:room_service_id>', views.room_service_update, name='room_service_update'),
 
     path('room/', views.room, name='room'),
-    path('room/<uuid:room_id>', views.room, name='room'),
+    path('room/<uuid:room_id>', views.room_detail, name='room_detail'),
     path('room/delete/<uuid:room_id>', views.room_delete, name='room_delete'),
 
     path('users/', views.users, name='users'),

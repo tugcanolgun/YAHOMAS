@@ -27,7 +27,7 @@
 
     <tr>
         <td>
-            <a href="{% url 'easy:room' room.id %}">{{ room.room_number }}</a>
+            <a href="{% url 'easy:room_detail' room.id %}">{{ room.room_number }}</a>
         </td>
         <td>
             {% if room.single_bed %}
@@ -55,7 +55,7 @@
         </td>
         <td>
             <p data-placement="top" data-toggle="tooltip" title="Edit">
-                <a href="{% url 'easy:room' room.id %}" class="btn btn-primary btn-xs">
+                <a href="{% url 'easy:room_detail' room.id %}" class="btn btn-primary btn-xs">
                     <span style="color: #fff"><i class="far fa-edit"></i></span>
                 </a>
             </p>

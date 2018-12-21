@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 import uuid
 
+
 class Rooms(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     room_number = models.CharField(max_length=30, unique=True)
@@ -24,22 +25,31 @@ class Rooms(models.Model):
     def __str__(self):
         return self.room_number
 
+
 class Guests(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20, null=True)
     id_number = models.CharField(max_length=250)
+    email = models.CharField(max_length=40, null=True)
+    address = models.CharField(max_length=250, null=True)
+    zip_code = models.CharField(max_length=15, null=True)
     image = models.ImageField(upload_to='images/guests/', null=True)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.name + ' ' + self.surname + ' - ' + self.id_number
+        if self.phone:
+            return self.name + ' ' + self.surname + ' - ' + str(self.phone)
+        return self.name + ' ' + self.surname
+
 
 class RoomCleaning(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     cleaning_time = models.DateField(auto_now=True)
+
 
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -55,12 +65,14 @@ class Booking(models.Model):
     def __str__(self):
         return self.room.room_number + ' - ' + str(self.start_date) + ' ' + str(self.end_date)
 
+
 class GuestBooking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     guest = models.ForeignKey(Guests, on_delete=models.CASCADE)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
+
 
 class RoomService(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -73,6 +85,7 @@ class RoomService(models.Model):
     def __str__(self):
         return self.name
 
+
 class RoomServiceBooking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
@@ -83,6 +96,7 @@ class RoomServiceBooking(models.Model):
 
     def __str__(self):
         return self.booking.room.room_number + ' ' + self.item.name
+
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = (

@@ -1,19 +1,24 @@
 from django import forms
 from .models import Booking, Guests, Rooms, RoomService, GuestBooking, User
 from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div
-from django.conf import settings
+from crispy_forms.layout import Submit
+# from django.conf import settings
 from django.urls import reverse
 from dal import autocomplete
+
 
 class AddGuest(forms.ModelForm):
     name = forms.CharField(max_length=40)
     image = forms.ImageField(required=False)
+    id_number = forms.CharField(required=False)
+    email = forms.CharField(required=False)
+    adress = forms.CharField(required=False)
+    zip_code = forms.CharField(required=False)
+
     class Meta:
         model = Guests
-        fields = ('name', 'surname', 'id_number', 'image')
+        fields = ('name', 'surname', 'phone', 'image', 'id_number', 'email', 'address', 'zip_code')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -22,11 +27,23 @@ class AddGuest(forms.ModelForm):
         self.helper.form_action = reverse('easy:guest')
         self.helper.add_input(Submit('submit', 'Save Guest'))
 
+
+class CreateInvoiceForm(forms.Form):
+    discount = forms.FloatField(label='Discount', initial=0)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Create Invoice'))
+
+
 class GuestBookingForm(forms.ModelForm):
     guest = forms.ModelChoiceField(
         queryset=Guests.objects.all(),
         widget=autocomplete.ModelSelect2(url='easy:guest_search')
     )
+
     class Meta:
         model = GuestBooking
         fields = ('guest', 'booking')
@@ -39,8 +56,8 @@ class GuestBookingForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
-    start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  
-    end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))  
+    start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Booking
@@ -52,9 +69,10 @@ class BookingForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save Booking'))
 
+
 class SearchBookingForm(forms.Form):
-    start_date = forms.DateField(widget=forms.HiddenInput())  
-    end_date = forms.DateField(widget=forms.HiddenInput())  
+    start_date = forms.DateField(widget=forms.HiddenInput())
+    end_date = forms.DateField(widget=forms.HiddenInput())
     single_bed = forms.BooleanField(required=False)
     double_bed = forms.BooleanField(initial=True, required=False)
     child_bed = forms.BooleanField(required=False)
@@ -63,14 +81,8 @@ class SearchBookingForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        # self.helper.layout = Layout(
-        #     Div (
-        #             Div('single_bed', css_class='col-4'),
-        #             Div('double_bed', css_class='col-4'),
-        #             Div('child_bed', css_class='col-4'), css_class='row'
-        #     ),
-        # )
         self.helper.add_input(Submit('submit', 'Search'))
+
 
 class RoomsForm(forms.ModelForm):
     image = forms.ImageField(required=False)
@@ -79,9 +91,10 @@ class RoomsForm(forms.ModelForm):
     has_balcony = forms.BooleanField(required=False, initial=True)
     has_air_cond = forms.BooleanField(required=False, initial=True)
     has_tv = forms.BooleanField(required=False, initial=True)
+
     class Meta:
         model = Rooms
-        fields = ('room_number', 
+        fields = ('room_number',
             'price',
             'square_meter',
             'floor',
@@ -102,6 +115,7 @@ class RoomsForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save Room'))
 
+
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
@@ -117,6 +131,7 @@ class SignUpForm(UserCreationForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Sign up'))
 
+
 class RoomServiceForm(forms.ModelForm):
     class Meta:
         model = RoomService
@@ -127,6 +142,7 @@ class RoomServiceForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save Item'))
+
 
 class UsersForm(UserCreationForm):
     first_name = forms.CharField(required=True)
