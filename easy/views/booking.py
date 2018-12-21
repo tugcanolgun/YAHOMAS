@@ -77,6 +77,14 @@ def booking(request):
             return render(request, 'easy/booking/results.html', {'form': form, 'results': rooms, 'time': _time})
         return render(request, 'easy/booking/results.html', {'form': form})
 
+
+class Invoice:
+    def __init__(self, name, number, price):
+        self.name = name
+        self.number = number
+        self.price = price
+
+
 def booking_detail(request, booking_id):
     if request.method == 'GET':
         booking = Booking.objects.get(id=booking_id)
@@ -92,6 +100,12 @@ def booking_detail(request, booking_id):
         form = BookingForm(request.POST or None, instance=booking)
         form.helper.form_action = reverse('easy:booking_update', kwargs={'booking_id': booking_id})
         items = RoomServiceBooking.objects.filter(booking=booking).all()
+
+        days = abs((booking.start_date - booking.end_date).days)
+        invoice = [Invoice(booking.room.room_number, days, booking.room.price * days)]
+        for item in items:
+            invoice.append(Invoice(item.name, 1, item.price))
+        invoice.append(Invoice('Sum', '-', sum([i.price for i in invoice])))
         context = {
             'booking': booking,
             'guests': guests,
@@ -99,6 +113,7 @@ def booking_detail(request, booking_id):
             'items': items,
             'search_form': search_form,
             'invoice_form': invoice_form,
+            'invoice': invoice
             }
         return render(request, 'easy/booking/detail.html', context)
     if request.method == 'POST':
