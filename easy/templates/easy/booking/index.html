@@ -20,7 +20,7 @@
         {% url 'easy:booking_delete' booking.id as link %}
     <tr>
         <td>
-            <a href="{% url 'easy:room' %}">{{ booking.room }}</a>
+            <a href="{% url 'easy:booking_detail' booking.id %}">{{ booking.room }}</a>
         </td>
         <td>
             {% if booking.is_checked_in %}
@@ -52,27 +52,6 @@
             </button></p>
         </td>
     </tr>
-
-
-
-        <!-- <div class="card" style="width: 18rem; margin: 0.5em;">
-            <div class="card-header d-flex justify-content-between w-100">
-                <a href=""><span style="font-size: 18px;">{{ booking.room }}</span></a>
-                <button type="button" onclick="changeBody('{{ booking.room }}', '{{ link }}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-                    X
-                </button>
-            </div>
-            <div class="card-body" style="color: royalblue">
-                {{ booking.start_date }} - {{ booking.end_date }}
-                <br /><i class="fas fa-money-bill-wave"></i> {{ booking.amount_paid }} paid
-                {% if booking.is_checked_in %}
-                    <br /><i class="fas fa-check-circle"></i> Checked in
-                {% else %}
-                    <br /><i class="fas fa-dot-circle"></i> Not checked in
-                {% endif %}
-            </div>
-        </div> -->
-        
     {% endfor %}
     </tbody>
 </table>

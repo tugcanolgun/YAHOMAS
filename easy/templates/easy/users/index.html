@@ -15,6 +15,7 @@
         <th>Last Name</th>
             <th>ID number</th>
             <th>Image</th>
+            <th>User type</th>
             <th>Edit</th>
             
             <th>Delete</th>
@@ -29,8 +30,10 @@
         <td>{{ user.first_name }}</td>
         <td>{{ user.last_name }}</td>
         <td>
-                <i class="fas fa-check"></i>
-                {{ user.get_user_type_display }}
+            <i class="fas fa-check"></i>
+        </td>
+        <td>
+            {{ user.get_user_type_display }}
         </td>
         <td>
             <p data-placement="top" data-toggle="tooltip" title="Edit">
