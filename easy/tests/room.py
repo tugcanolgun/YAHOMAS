@@ -14,8 +14,8 @@ class RoomTestcase(TestCase):
             double_bed=True,
         )
 
-    def test_user_entities(self):
-        """Animals that can speak are correctly identified"""
+    def test_room_entities(self):
+        """Room entity test"""
         room = Rooms.objects.get(room_number="101")
         self.assertEqual(room.room_number, '101')
         self.assertEqual(room.square_meter, 13.1)

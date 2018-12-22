@@ -31,9 +31,9 @@ SECRET_KEY = secret_key.key
 # SECRET_KEY = 'kyt)urp=*m8^q!!b9e53lqdp_a(abf^r5$w-b$)y1&vc_pz3wc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['']
 
 
 # Application definition
