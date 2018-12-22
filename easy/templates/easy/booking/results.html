@@ -1,0 +1,88 @@
+{% extends 'easy/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    {% include "easy/message.html" %}
+        {% include "easy/booking/search_form.html" %}
+    <div class="row">
+
+<table id="mytable" class="table table-bordred table-striped">
+  <thead>
+    <tr>
+      <th>Room Number</th>
+      <th>Single Bed</th>
+      <th>Double Bed</th>
+      <th>Child Bed</th>
+      <th>Has View</th>
+      <th>Smokable</th>
+      <th>Balcony</th>
+      <th>Air cond</th>
+      <th>Tv</th>
+    </tr>
+  </thead>
+  <tbody>
+{% if results %}
+
+    {% for result in results %}
+        <tr>
+            <td><a href="{% url 'easy:booking_add' result.id time.start_date time.end_date %}">{{ result.room_number }}</a></td>
+            <td>{% if result.single_bed %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.double_bed %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.child_bed %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_view %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.smokable %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_balcony %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_air_cond %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+            <td>{% if result.has_tv %}
+                    <i style="color: green;" class="fas fa-check"></i>
+                {% else %}
+                    <i style="color: red;" class="fas fa-times"></i>
+                {% endif %}
+            </td>
+        </tr>
+        
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>No rooms are available.</p>
+{% endif %}
+    </div>
+</div>
+
+{% endblock %}

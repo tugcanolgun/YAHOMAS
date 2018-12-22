@@ -1,0 +1,54 @@
+<div class="row centered-row">
+<div class="col card bg-c-gray order-card p-5">
+    <div class="row centered-row">
+        <span class="search-bookings">Search Bookings</span>
+    </div>
+    <div class="row">
+        <div id="reportrange" class="date-picker">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> 
+        </div>
+    </div>
+    <div class="row centered-row">
+        <form action="{% url 'easy:booking' %}" name="booking-search" method="post">
+            {% load crispy_forms_tags %}
+            {% csrf_token %}
+            {% crispy form %}
+            <input type="submit" hidden value="Submit">
+        </form>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+
+    var start = moment();
+    var end = moment().add(5, 'days');
+    // var end = document.getElementById("id_end_date").value;
+    // var _start = document.getElementById("id_start_date").value;
+    // console.log(start);
+    // console.log(new Date(_start));
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        end_date = document.getElementById("id_end_date");
+        start_date = document.getElementById("id_start_date");
+        start_date.value = start.format('YYYY-MM-DD');
+        end_date.value = end.format('YYYY-MM-DD');
+    }
+
+    $('#reportrange').daterangepicker({
+        minDate: start,
+        startDate: start,
+        endDate: end,
+    }, cb);
+
+    cb(start, end);
+
+    // $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+    //     console.log("clicked apply");
+    //     document.forms['booking-search'].submit();
+    //     document.forms[0].submit();
+    //     document.forms[1].submit();
+    // });
+
+</script>
