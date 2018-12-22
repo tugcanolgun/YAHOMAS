@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from pathlib import Path
 from djangosecure import DjangoSecretKey, DjangoDatabaseSettings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -19,6 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+
+APP_NAME = "YAHOMAS"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
@@ -145,9 +148,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# Automatic static root creation. Creates under {home}/static/appname
+
 STATIC_URL = '/static/'
 # if not DEBUG:
-STATIC_ROOT = "/home/tugcan/scripts/SWE/static"
+static_folder = Path().home() / 'static'
+static_folder.mkdir(exist_ok=True)
+app_folder = static_folder / APP_NAME
+app_folder.mkdir(exist_ok=True)
+STATIC_ROOT = str(app_folder)
 # else:
 #     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles'),
 STATICFILES_DIRS = (

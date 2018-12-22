@@ -2,6 +2,7 @@ import logging
 import datetime
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
@@ -14,6 +15,7 @@ from ..forms import SearchBookingForm
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class Stats:
     """Holds information for statistics to relay in the intex page"""
     def __init__(self, title: str, number: int, sub: str="In total", font: str="fas fa-hotel"):
@@ -22,6 +24,7 @@ class Stats:
         self.number = number
         self.sub = sub
         self.font = font
+
 
 def _stats(rooms: Rooms, bookings: Booking) -> list:
     """Creates statistics from the objects"""
@@ -73,6 +76,21 @@ def _stats(rooms: Rooms, bookings: Booking) -> list:
     return stats
 
 
+def login_user(request):
+    form = LoginForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse('easy:index'))
+        else:
+            messages.success(request, "Logged in")
+    messages.success(request, "Could not log in")
+    return render(request, 'easy/common/add.html', {'form': form})
+
+
 def index(request):
     # latest_question_list = RoomType.objects.order_by('-pub_date')[:5]
     # context = {'latest_question_list': latest_question_list}
@@ -100,3 +118,7 @@ def index(request):
             }
 
     return render(request, 'easy/index.html', context)
+
+
+def about(request):
+    return render(request, 'easy/common/about.html')

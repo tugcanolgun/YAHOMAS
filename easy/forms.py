@@ -13,7 +13,7 @@ class AddGuest(forms.ModelForm):
     image = forms.ImageField(required=False)
     id_number = forms.CharField(required=False)
     email = forms.CharField(required=False)
-    adress = forms.CharField(required=False)
+    address = forms.CharField(required=False)
     zip_code = forms.CharField(required=False)
 
     class Meta:
@@ -52,7 +52,7 @@ class GuestBookingForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save Guest'))
+        self.helper.add_input(Submit('submit', 'Add to this booking'))
 
 
 class BookingForm(forms.ModelForm):

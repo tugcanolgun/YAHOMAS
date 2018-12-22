@@ -8,6 +8,7 @@ from django.urls import reverse
 from django import forms
 from django.conf import settings as djangoSettings
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.contrib.auth.decorators import login_required
 from InvoiceGenerator.api import Invoice, Item, Client, Provider, Creator
 from InvoiceGenerator.pdf import SimpleInvoice
 
@@ -78,7 +79,7 @@ def booking(request):
         return render(request, 'easy/booking/results.html', {'form': form})
 
 
-class Invoice:
+class InvoiceItems:
     def __init__(self, name, number, price):
         self.name = name
         self.number = number
@@ -102,10 +103,12 @@ def booking_detail(request, booking_id):
         items = RoomServiceBooking.objects.filter(booking=booking).all()
 
         days = abs((booking.start_date - booking.end_date).days)
-        invoice = [Invoice(booking.room.room_number, days, booking.room.price * days)]
+        if days <= 0:
+            days = 1
+        _invoice = [InvoiceItems(booking.room.room_number, days, booking.room.price * days)]
         for item in items:
-            invoice.append(Invoice(item.name, 1, item.price))
-        invoice.append(Invoice('Sum', '-', sum([i.price for i in invoice])))
+            _invoice.append(InvoiceItems(item.name, 1, item.price))
+        _invoice.append(InvoiceItems('Sum', '-', sum([i.price for i in _invoice])))
         context = {
             'booking': booking,
             'guests': guests,
@@ -113,7 +116,7 @@ def booking_detail(request, booking_id):
             'items': items,
             'search_form': search_form,
             'invoice_form': invoice_form,
-            'invoice': invoice
+            'invoices': _invoice
             }
         return render(request, 'easy/booking/detail.html', context)
     if request.method == 'POST':
@@ -167,6 +170,8 @@ def booking_invoice(request, booking_id):
             invoice.currency = "$"
             invoice.number = str(booking_id)[:13]
             days = abs((booking.start_date - booking.end_date).days)
+            if days <= 0:
+                days = 1
             invoice.add_item(Item(days, booking.room.price * (100 - float(form.cleaned_data['discount'])) / 100, description="Room 1"))
             for item in items:
                 invoice.add_item(Item(1, item.price, description=item.name))
@@ -216,11 +221,7 @@ def booking_user_add(request, booking_id):
         _guest = search_form.save(commit=False)
         if _guest.guest in (gst.guest for gst in guests):
             messages.success(request, "Guest is already added")
-            return render(request, 'easy/booking/add.html', {
-                'form': form,
-                'search_form': search_form,
-                'guests': guests
-                })
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         _guest.save()
         _booking = Booking.objects.get(id=_guest.booking.id)
         _booking.active = True
@@ -233,7 +234,8 @@ def booking_user_add(request, booking_id):
     return render(request, 'easy/booking/add.html', {
         'form': form,
         'search_form': search_form,
-        'guests': guests
+        'guests': guests,
+        'booking': instance
         })
 
 

@@ -6,6 +6,8 @@ app_name = 'easy'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
+
     path('guest/', views.guest, name='guest'),
     path('guest/delete/<uuid:guest_id>', views.guest_delete, name='guest_delete'),
     path('guest/update/<uuid:guest_id>', views.guest_update, name='guest_update'),

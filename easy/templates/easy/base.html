@@ -27,19 +27,21 @@
             <h3><a href="{% url 'easy:index' %}">HMS</a></h3>
         </div>
         <ul class="list-unstyled components">
-            <p>Manage everything</p>
+            <div align="center">
+                <img width="120" src="{% static 'easy/logo.png' %}" />
+            </div>
             <li class="active">
                 <li>
                     <a href="{% url 'easy:index' %}">Home</a>
                 </li>
             </li>
-                    <li>
-                        <a href="{% url 'easy:booking' %}">Booking</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'easy:room' %}">Rooms</a>
-                    </li>
             <li>
+                <a href="{% url 'easy:booking' %}">Booking</a>
+            </li>
+            <li>
+                <a href="{% url 'easy:room' %}">Rooms</a>
+            </li>
+            <!-- <li>
                 <a href="#bookingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Booking</a>
                 <ul class="collapse list-unstyled" id="bookingSubmenu">
                     <li>
@@ -49,18 +51,18 @@
                         <a href="{% url 'easy:room' %}">Rooms</a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li>
                 <a href="{% url 'easy:guest' %}">Guests</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#guestSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Guests</a>
                 <ul class="collapse list-unstyled" id="guestSubmenu">
                     <li>
                         <a href="{% url 'easy:guest' %}">Guests</a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li>
                 <a href="{% url 'easy:room_service' %}">Room service</a>
             </li>
@@ -68,11 +70,13 @@
                 <a href="{% url 'easy:users' %}">Users</a>
             </li>
             <li>
-                <a href="#">Contact</a>
+                <a href="{% url 'easy:about' %}">About</a>
             </li>
+            <p style="font-size: 16px;"><a href="https://github.com/tugcanolgun/YAHOMAS"><i class="fab fa-github"></i> Yahomas</a></p>
+            <p style="font-size: 14px;">Made with <span style="color: red"><i class="fas fa-heart"></i></span> by <a href="https://tugcan.net"> Tugcan Olgun</a></p>
+            </nav>
         </ul>
-    </nav>
-    {% endblock %}
+        {% endblock %}
     <div id="content-main">
         <div class="container-fluid navbar-header">
                 <button type="button" id="sidebarCollapse" class="btn btn-outline-light">
