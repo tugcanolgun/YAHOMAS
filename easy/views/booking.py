@@ -107,7 +107,7 @@ def booking_detail(request, booking_id):
             days = 1
         _invoice = [InvoiceItems(booking.room.room_number, days, booking.room.price * days)]
         for item in items:
-            _invoice.append(InvoiceItems(item.name, 1, item.price))
+            _invoice.append(InvoiceItems(item.item.name, 1, item.item.price))
         _invoice.append(InvoiceItems('Sum', '-', sum([i.price for i in _invoice])))
         context = {
             'booking': booking,
