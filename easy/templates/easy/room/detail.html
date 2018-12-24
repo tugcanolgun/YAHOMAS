@@ -24,18 +24,18 @@
         {% if bookings %}
         <table id="mytable" class="table table-bordred table-striped">
             <thead>
+                <th>Booking</th>
                 <th>Checked in</th>
                 <th>Paid</th>
                 <th>Start date</th>
                 <th>End date</th>
-                <th>Edit</th>
             </thead>
         <tbody>
             {% for booking in bookings %}
                 {% url 'easy:booking_delete' booking.id as link %}
             <tr>
                 <td>
-                    <a href="{% url 'easy:booking_detail' booking.id %}">{{ booking.room }}</a>
+                    <a href="{% url 'easy:booking_detail' booking.id %}">Go to booking</a>
                 </td>
                 <td>
                     {% if booking.is_checked_in %}
