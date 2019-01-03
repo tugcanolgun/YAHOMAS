@@ -174,7 +174,7 @@ def booking_invoice(request, booking_id):
                 days = 1
             invoice.add_item(Item(days, booking.room.price * (100 - float(form.cleaned_data['discount'])) / 100, description="Room 1"))
             for item in items:
-                invoice.add_item(Item(1, item.price, description=item.name))
+                invoice.add_item(Item(1, item.item.price, description=item.item.name))
 
             pdf = SimpleInvoice(invoice)
             file_path = f"{djangoSettings.STATIC_ROOT}/{str(booking_id)}.pdf"
